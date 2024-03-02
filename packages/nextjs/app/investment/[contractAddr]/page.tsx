@@ -202,7 +202,7 @@ const InvestmentDetails: NextPage = () => {
                       className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                       width={"100%"}
                       height={"50px"}
-                      style={{ paddingLeft: 10, paddingRight: 10, fontSize: 18 }}
+                      style={{ paddingLeft: 10, paddingRight: 10, fontSize: 16 }}
                       autoComplete="off" // hide password manager icon
                       value={amount}
                       onBlur={handleAmountInputBlur}
