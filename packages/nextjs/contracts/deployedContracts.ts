@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   31337: {
     NFTPoI: {
-      address: "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+      address: "0xa513E6E4b8f2a923D98304ec87F64353C4D5C853",
       abi: [
         {
           inputs: [
@@ -632,7 +632,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     RWF_Trust: {
-      address: "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+      address: "0xB7f8BC63BbcaD18155201308C8f3540b07f84F5e",
       abi: [
         {
           inputs: [
@@ -890,6 +890,22 @@ const deployedContracts = {
           type: "error",
         },
         {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "value",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "length",
+              type: "uint256",
+            },
+          ],
+          name: "StringsInsufficientHexLength",
+          type: "error",
+        },
+        {
           anonymous: false,
           inputs: [
             {
@@ -1109,7 +1125,33 @@ const deployedContracts = {
         },
         {
           inputs: [],
+          name: "getAvailableTokens",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
           name: "getDueDate",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "getEarlyWithdrawPenalty",
           outputs: [
             {
               internalType: "uint256",
@@ -1128,6 +1170,32 @@ const deployedContracts = {
               internalType: "string",
               name: "",
               type: "string",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "getMetadata",
+          outputs: [
+            {
+              internalType: "string",
+              name: "",
+              type: "string",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "getMinOwnedTokens",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
             },
           ],
           stateMutability: "view",
@@ -1262,13 +1330,7 @@ const deployedContracts = {
           type: "function",
         },
         {
-          inputs: [
-            {
-              internalType: "uint256",
-              name: "tokenAmount",
-              type: "uint256",
-            },
-          ],
+          inputs: [],
           name: "sell",
           outputs: [],
           stateMutability: "payable",
@@ -1435,7 +1497,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     TokenFactory: {
-      address: "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+      address: "0x610178dA211FEF7D417bC0e6FeD39F05609AD788",
       abi: [
         {
           inputs: [
@@ -1599,7 +1661,7 @@ const deployedContracts = {
   },
   11155111: {
     NFTPoI: {
-      address: "0x7fcd8736f6899917CDc614B05167346b26aB3540",
+      address: "0x47855B3Ad8E17d189cF7C8b2a5BE5fFF8d2C22ca",
       abi: [
         {
           inputs: [
@@ -2224,7 +2286,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     RWF_Trust: {
-      address: "0x2f1B499a2be874503B601048C5f5E1CF37Eff871",
+      address: "0x21a3780071229f2A905f3c8Bd276EcB1b7c77342",
       abi: [
         {
           inputs: [
@@ -2482,6 +2544,22 @@ const deployedContracts = {
           type: "error",
         },
         {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "value",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "length",
+              type: "uint256",
+            },
+          ],
+          name: "StringsInsufficientHexLength",
+          type: "error",
+        },
+        {
           anonymous: false,
           inputs: [
             {
@@ -2701,7 +2779,33 @@ const deployedContracts = {
         },
         {
           inputs: [],
+          name: "getAvailableTokens",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
           name: "getDueDate",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "getEarlyWithdrawPenalty",
           outputs: [
             {
               internalType: "uint256",
@@ -2720,6 +2824,32 @@ const deployedContracts = {
               internalType: "string",
               name: "",
               type: "string",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "getMetadata",
+          outputs: [
+            {
+              internalType: "string",
+              name: "",
+              type: "string",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "getMinOwnedTokens",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
             },
           ],
           stateMutability: "view",
@@ -3021,7 +3151,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     TokenFactory: {
-      address: "0xD535E8dAD3d6e423b9b2516aA1ee34FcD9e559d7",
+      address: "0x84E96Eb8218e84826B474dD50f63fcbF9719ffF9",
       abi: [
         {
           inputs: [
