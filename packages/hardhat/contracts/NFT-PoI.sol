@@ -17,7 +17,7 @@ contract NFTPoI is ERC721, ERC721Burnable, Ownable, IERC721Enumerable {
     {}
 
     function _baseURI() internal pure override returns (string memory) {
-        return "https://https://ipfs.io/ipfs/QmPNxZ7nY1vAuqyGm639FExegAqKj4qLoihNwnQqZGpKoG/";
+        return "https://ipfs.io/ipfs/QmPNxZ7nY1vAuqyGm639FExegAqKj4qLoihNwnQqZGpKoG/";
     }
 
     function safeMint(address to) public onlyOwner {
