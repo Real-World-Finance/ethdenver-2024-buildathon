@@ -17,7 +17,7 @@ export default function InvestmentDetailsBanner({ investment, className }: Props
       <div className="flex flex-col w-full md:px-[50px]">
         <div className="flex flex-row items-center justify-between">
           <Image src={investment.imgUrl} alt={investment.name} width={100} height={100} style={{ borderRadius: 10 }} />
-          <h1 className="font-semibold text-4xl leading-6 text-gray-900 mb-0">
+          <h1 className="font-semibold lg:text-4xl md:text-4xl sm:text-3xl leading-6 text-gray-900 mb-0">
             {investment.name} ({investment.symbol})
           </h1>
           <p className="text-2xl leading-6 text-gray-900 text-right">${formatEther(investment.price)}</p>

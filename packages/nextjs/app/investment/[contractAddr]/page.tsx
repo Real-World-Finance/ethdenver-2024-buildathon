@@ -155,27 +155,37 @@ const InvestmentDetails: NextPage = () => {
         <div className="justify-center grid grid-cols-1 gap-4 justify-items-center ml-5 mr-5">
           <Banner investment={metadata} className="w-full max-w-screen-md mt-[25px] mb-[25px]" />
           {/* <InvestmentExtraDetails /> */}
-          <div className="min-h-[40vh]  h-auto sm:mx-[100px] w-full flex justify-center md:px-5 sm:px-0 h-[40vh]">
+          <div className="min-h-[45vh]  h-auto sm:mx-[100px] w-full flex justify-center md:px-5 sm:px-0 h-[40vh]">
             <div className="max-w-screen-md rounded-lg w-card bg-base-100 shadow-xl transition ease-in-out w-full">
               <h1 className="pl-4 pr-4 pt-4 font-semibold">Invest in {metadata?.symbol}</h1>
-              {/* <div className="flex flex-row gap-10">
-                <div>Available Tokens</div>
-                <div>{metadata.availableTokens.toString()}</div>
-              </div>
-              <div className="flex flex-row gap-10">
-                <div>Minimum</div>
-                <div>
-                  {metadata.minOwnedTokens.toString()} {metadata.symbol}
+              <div className="grid grid-col-1 ml-[15px]">
+                <div className="flex flex-row gap-x-[8rem]">
+                  <div className="min-w-[180px]">Available Tokens</div>
+                  <div>{metadata.availableTokens.toString()}</div>
+                </div>
+                <div className="flex flex-row gap-x-[8rem]">
+                  <div className="min-w-[180px]">Minimum</div>
+                  <div>
+                    {metadata.minOwnedTokens.toString()} {metadata.symbol}
+                  </div>
+                </div>
+                <div className="flex flex-row gap-x-[8rem]">
+                  <div className="min-w-[180px]">Expected ROI</div>
+                  <div>{formatEther(metadata.expectedROI)}%</div>
+                </div>
+                <div className="flex flex-row gap-x-[8rem]">
+                  <div className="min-w-[180px]">% Ether In Reserve</div>
+                  <div>{formatEther(metadata.pctCashReserve)}%</div>
+                </div>
+                <div className="flex flex-row gap-x-[8rem]">
+                  <div className="min-w-[180px]">% Trust Profit</div>
+                  <div>{formatEther(metadata.profitPct)}%</div>
+                </div>
+                <div className="flex flex-row gap-x-[8rem]">
+                  <div className="min-w-[180px]">Early Withdrawal Penalty</div>
+                  <div className="text-left justify-left">${formatEther(metadata.earlyWithdrawPenalty)}</div>
                 </div>
               </div>
-              <div className="flex flex-row gap-10">
-                <div>Expected ROI</div>
-                <div>{formatEther(metadata.expectedROI)}%</div>
-              </div>
-              <div className="flex flex-row gap-10">
-                <div>Early Withdrawal Penalty</div>
-                <div>${formatEther(metadata.earlyWithdrawPenalty)}</div>
-              </div> */}
               <div className="card-actions justify-start">
                 <div className="flex flex-col w-full">
                   {/* Tabs */}
