@@ -3,16 +3,17 @@ import React from "react";
 //import Link from "next/link";
 //import { useRouter } from "next/router";
 import type { NextPage } from "next";
+import InvestmentCard from "~~/components/InvestmentCard";
 import InvestmentCard2 from "~~/components/InvestmentCard2";
+import { investmentsList } from "~~/services/investmentsList";
 //import { mock } from "wagmi/connectors";
 //import { BugAntIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-//import {mockInvestments} from "~~/services/mockInvestment";
-import { investmentsList } from "~~/services/investmentsList";
+import { mockInvestments } from "~~/services/mockInvestment";
 
 const Home: NextPage = () => {
   return (
     <div className="flex justify-around pt-30">
-      <div className="grid lg:grid-cols-3 lg:gap-4 md:grid-cols-2 sm:grid-cols-1 gap-x-4 gap-y-6">
+      <div className="grid lg:grid-cols-3 lg:gap-4 md:grid-cols-2 sm:grid-cols-1 gap-x-4 gap-y-6 mt-[30px]">
         {/*mockInvestments?.length &&
           mockInvestments.map(investment => <InvestmentCard key={investment.name} investment={investment} />)*/}
         {investmentsList()?.length &&
