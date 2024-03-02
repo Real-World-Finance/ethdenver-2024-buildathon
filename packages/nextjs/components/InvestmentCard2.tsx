@@ -25,7 +25,7 @@ export default function InvestmentCard2({ contractAddr }: Props) {
   const { isConnected, chain: currentChain, address: connectedAddress } = useAccount();
 
   useEffect(() => {
-    if (!metadata && connectedAddress) {
+    if (!metadata) {
       readContract(
         createConfig({
           chains: [chain],
