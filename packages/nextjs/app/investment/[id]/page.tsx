@@ -80,7 +80,7 @@ const InvestmentDetails: NextPage = () => {
   };
 
   const handleClick = useCallback(
-    async (e: React.ChangeEvent<HTMLInputElement>) => {
+    async (e: MouseEventHandler<HTMLButtonElement>) => {
       return activeTab === Tabs.Buy ? handleBuy() : handleSell();
     },
     [activeTab],

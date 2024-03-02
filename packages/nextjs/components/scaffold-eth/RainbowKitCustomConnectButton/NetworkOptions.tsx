@@ -14,7 +14,7 @@ export const NetworkOptions = ({ hidden = false }: NetworkOptionsProps) => {
   const { isDarkMode } = useDarkMode();
   const { switchChain } = useSwitchChain();
   const { chain } = useAccount();
-  console.log('allowedNetworks:', allowedNetworks);
+
   return (
     <>
       {allowedNetworks
