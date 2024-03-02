@@ -3,7 +3,7 @@ import { DeployFunction } from "hardhat-deploy/types";
 import { Contract } from "ethers";
 
 /**
- * Deploys a contract named "YourContract" using the deployer account and
+ * Deploys a contract named "TokenFactory" using the deployer account and
  * constructor arguments set to the deployer address
  *
  * @param hre HardhatRuntimeEnvironment object.
@@ -22,7 +22,7 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
   const { deployer } = await hre.getNamedAccounts();
   const { deploy } = hre.deployments;
 
-  await deploy("YourContract", {
+  await deploy("TokenFactory", {
     from: deployer,
     // Contract constructor arguments
     args: [deployer],
@@ -33,12 +33,26 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
   });
 
   // Get the deployed contract to interact with it after deploying.
-  const yourContract = await hre.ethers.getContract<Contract>("YourContract", deployer);
-  console.log("👋 Initial greeting:", await yourContract.greeting());
+  const tokenShopFactory = await hre.ethers.getContract<Contract>("TokenFactory", deployer);
+
+  console.log("owner:", await tokenShopFactory.owner());
+
+  // await tokenShopFactory.createToken(
+  //   "BufficornCastle",
+  //   "BCC",
+  //   "500000",
+  //   "1000000000000000000",
+  //   1709420650,
+  //   "15000000000000000000",
+  //   "10000000000000000000",
+  //   "20000000000000000000",
+  //   "https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg",
+  //   "15000000000000000000",
+  // );
 };
 
 export default deployYourContract;
 
 // Tags are useful if you have multiple deploy files and only want to run one of them.
-// e.g. yarn deploy --tags YourContract
-deployYourContract.tags = ["YourContract"];
+// e.g. yarn deploy --tags TokenFactory
+deployYourContract.tags = ["TokenFactory"];

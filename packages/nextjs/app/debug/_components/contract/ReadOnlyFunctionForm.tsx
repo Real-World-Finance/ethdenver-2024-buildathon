@@ -11,7 +11,6 @@ import {
   getFunctionInputKey,
   getInitialFormState,
   getParsedContractFunctionArgs,
-  transformAbiFunction,
 } from "~~/app/debug/_components/contract";
 import { getParsedError, notification } from "~~/utils/scaffold-eth";
 
@@ -49,8 +48,7 @@ export const ReadOnlyFunctionForm = ({
     }
   }, [error]);
 
-  const transformedFunction = transformAbiFunction(abiFunction);
-  const inputElements = transformedFunction.inputs.map((input, inputIndex) => {
+  const inputElements = abiFunction.inputs.map((input, inputIndex) => {
     const key = getFunctionInputKey(abiFunction.name, input, inputIndex);
     return (
       <ContractInput

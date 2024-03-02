@@ -1,26 +1,24 @@
-"use client";
-
+import React from "react";
+import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import type { NextPage } from "next";
-import { useAccount } from "wagmi";
+import { mock } from "wagmi/connectors";
 import { BugAntIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { Address } from "~~/components/scaffold-eth";
+import {mockInvestments} from "~~/services/mockInvestment";
+import InvestmentCard from "~~/components/InvestmentCard";
 
 const Home: NextPage = () => {
-  const { address: connectedAddress } = useAccount();
-
   return (
-    <>
-      <div className="flex items-center flex-col flex-grow pt-10">
-        <div className="px-5">
-          <h1 className="text-center">
+    <div className="flex justify-around">
+      <div className="grid lg:grid-cols-3 lg:gap-4 md:grid-cols-2 sm:grid-cols-1 gap-x-4 gap-y-6">
+        {mockInvestments?.length &&
+          mockInvestments.map(investment => <InvestmentCard key={investment.name} investment={investment} />)}
+        {/* <div className="px-5">
+          <h1 className="text-center mb-8">
             <span className="block text-2xl mb-2">Welcome to</span>
             <span className="block text-4xl font-bold">Scaffold-ETH 2</span>
           </h1>
-          <div className="flex justify-center items-center space-x-2">
-            <p className="my-2 font-medium">Connected Address:</p>
-            <Address address={connectedAddress} />
-          </div>
           <p className="text-center text-lg">
             Get started by editing{" "}
             <code className="italic bg-base-300 text-base font-bold max-w-full break-words break-all inline-block">
@@ -46,7 +44,7 @@ const Home: NextPage = () => {
               <p>
                 Tinker with your smart contract using the{" "}
                 <Link href="/debug" passHref className="link">
-                  Debug Contracts
+                  Debug Contract
                 </Link>{" "}
                 tab.
               </p>
@@ -62,9 +60,9 @@ const Home: NextPage = () => {
               </p>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
-    </>
+    </div>
   );
 };
 
