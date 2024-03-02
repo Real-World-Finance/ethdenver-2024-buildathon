@@ -1,6 +1,5 @@
 "use client";
 
-// @refresh reset
 import { useReducer } from "react";
 import { ContractReadMethods } from "./ContractReadMethods";
 import { ContractVariables } from "./ContractVariables";
