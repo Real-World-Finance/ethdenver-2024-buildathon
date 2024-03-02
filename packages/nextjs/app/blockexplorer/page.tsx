@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { PaginationButton, SearchBar, TransactionsTable } from "./_components";
 import type { NextPage } from "next";
-import { hardhat } from "viem/chains";
+import { hardhat, sepolia } from "viem/chains";
 import { useFetchBlocks } from "~~/hooks/scaffold-eth";
 import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
 import { notification } from "~~/utils/scaffold-eth";
@@ -13,7 +13,7 @@ const BlockExplorer: NextPage = () => {
   const { targetNetwork } = useTargetNetwork();
 
   useEffect(() => {
-    if (targetNetwork.id === hardhat.id && error) {
+    if ((targetNetwork.id === hardhat.id || targetNetwork.id === sepolia.id) && error) {
       notification.error(
         <>
           <p className="font-bold mt-0 mb-1">Cannot connect to local provider</p>
@@ -28,7 +28,7 @@ const BlockExplorer: NextPage = () => {
       );
     }
 
-    if (targetNetwork.id !== hardhat.id) {
+    if (targetNetwork.id !== hardhat.id && targetNetwork.id !== sepolia.id) {
       notification.error(
         <>
           <p className="font-bold mt-0 mb-1">

@@ -10,8 +10,8 @@ import InvestmentCard from "~~/components/InvestmentCard";
 
 const Home: NextPage = () => {
   return (
-    <div className="flex justify-around">
-      <div className="grid lg:grid-cols-3 lg:gap-4 md:grid-cols-2 sm:grid-cols-1 gap-x-4 gap-y-6">
+    <div className="flex justify-around pt-30">
+      <div className="grid lg:grid-cols-3 lg:gap-4 md:grid-cols-2 sm:grid-cols-1 gap-x-4 gap-y-6 mt-[30px]">
         {mockInvestments?.length &&
           mockInvestments.map(investment => <InvestmentCard key={investment.name} investment={investment} />)}
         {/* <div className="px-5">

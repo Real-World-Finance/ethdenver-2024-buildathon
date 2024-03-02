@@ -10,6 +10,7 @@ import { useAccount, useSimulateContract, useSwitchChain, useWalletClient, useWr
 import EtherIcon from "~~/components/EtherIcon";
 // for development only
 import Banner from "~~/components/InvestmentDetailsBanner";
+import InvestmentExtraDetails from "~~/components/InvestmentExtraDetails";
 import RWFIcon from "~~/components/RWFIcon";
 import SpinnerIcon from "~~/components/SpinnerIcon";
 import { RainbowKitCustomConnectButton } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton";
@@ -17,8 +18,9 @@ import { RainbowKitCustomConnectButton } from "~~/components/scaffold-eth/Rainbo
 import deployedContracts from "~~/contracts/deployedContracts";
 import scaffoldConfig from "~~/scaffold.config";
 import { mockInvestments } from "~~/services/mockInvestment";
+import { isProd } from "~~/utils/env";
 
-const chain = process.env.NODE_ENV === "production" ? mainnet : process.env.NODE_ENV === "local" ? hardhat : sepolia;
+const chain = isProd ? sepolia : process.env.NODE_ENV === "local" ? hardhat : sepolia;
 const { abi: TokenAbi } = deployedContracts[chain.id].RWF_Trust;
 
 const validAmountRegex = /^[0-9]{0,78}\.?[0-9]{0,18}$/;
@@ -122,104 +124,87 @@ const InvestmentDetails: NextPage = () => {
 
   return (
     <>
-      <Banner investment={investment} />
-      <div className="grid lg:grid-cols-2 md:grid-cols-2 gap-4 sm:grid-cols-1 justify-items-end m-auto pl-5 pr-5">
-        <div className="bg-white shadow-xl rounded-lg ">
-          <h2 className="font-semibold text-2xl mb-4">OUSG Details</h2>
-          <p className="text-gray-700 mb-4">
-            Dive deep into the specifics of the OUSG product, understand its workings, and explore its unique features.
-          </p>
-          <div className="mb-4">
-            <h3 className="font-semibold text-xl">Key Features</h3>
-            <ul className="list-disc list-inside text-gray-600">
-              <li>Decentralized Finance Integration</li>
-              <li>High Yield Returns</li>
-              <li>Stablecoin Compatibility</li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="font-semibold text-xl">Investment Strategy</h3>
-            <p className="text-gray-600">
-              The investment strategy focuses on maximizing returns through diversified portfolios, leveraging DeFi
-              protocols, and ensuring security and transparency.
-            </p>
-          </div>
-        </div>
-        <div className="card w-96 bg-base-100 shadow-xl transition ease-in-out hover:bg-slate-50 hover:cursor-pointer w-full">
-          <h1 className="pl-4 pr-4 pt-4">Invest in {investment.name}</h1>
-          <div className="card-actions justify-start">
-            <div className="flex flex-col w-full">
-              {/* Tabs */}
-              <div className="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
-                <ul className="flex flex-wrap -mb-px">
-                  <li className="me-2">
-                    <span className={getTabClass(Tabs.Buy)} onClick={() => handleChangeTab(Tabs.Buy)}>
-                      Buy
-                    </span>
-                  </li>
-                  <li className="me-2">
-                    <span className={getTabClass(Tabs.Sell)} onClick={() => handleChangeTab(Tabs.Sell)}>
-                      Sell
-                    </span>
-                  </li>
-                </ul>
-              </div>
-
-              <div className="mt-4 relative pl-4 pr-4">
-                <input
-                  type="string"
-                  name="amount"
-                  id="amount"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  width={"100%"}
-                  autoComplete="off" // hide password manager icon
-                  value={amount}
-                  onBlur={handleAmountInputBlur}
-                  onChange={handleAmmountChange}
-                />
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 h-full">
-                  {/* <Image src="https://www.svgrepo.com/show/349356/ethereum.svg" alt="ether" /> */}
-                  {activeTab === Tabs.Buy ? <EtherIcon width={20} height={20} /> : <RWFIcon width={30} height={30} />}
+      <div className="justify-center grid grid-cols-1 gap-4 justify-items-center ml-5 mr-5">
+        <Banner investment={investment} className="max-w-screen-md mt-[25px] mb-[25px]" />
+        {/* <InvestmentExtraDetails /> */}
+        <div className="sm:mx-[100px] w-full flex justify-center md:px-5 sm:px-0 h-[40vh]">
+          <div className="max-w-screen-md rounded-lg w-card bg-base-100 shadow-xl transition ease-in-out w-full">
+            <h1 className="pl-4 pr-4 pt-4 font-semibold">Invest in {investment.name}</h1>
+            <div className="card-actions justify-start">
+              <div className="flex flex-col w-full">
+                {/* Tabs */}
+                <div className="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400">
+                  <ul className="flex flex-wrap -mb-px">
+                    <li className="me-2">
+                      <span className={getTabClass(Tabs.Buy)} onClick={() => handleChangeTab(Tabs.Buy)}>
+                        Buy
+                      </span>
+                    </li>
+                    <li className="me-2">
+                      <span className={getTabClass(Tabs.Sell)} onClick={() => handleChangeTab(Tabs.Sell)}>
+                        Sell
+                      </span>
+                    </li>
+                  </ul>
                 </div>
-              </div>
 
-              <div className="w-full mt-4 pl-4 pr-4">
-                {isConnected && currentChain && currentChain.id === chain.id ? (
-                  <button
-                    className="btn btn-primary w-full rounded-md"
-                    onClick={handleClick}
-                    disabled={writeContractStatus === "pending"}
+                <div className="mt-4 relative pl-4 pr-4">
+                  <input
+                    type="string"
+                    name="amount"
+                    id="amount"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    width={"100%"}
+                    height={"50px"}
+                    autoComplete="off" // hide password manager icon
+                    value={amount}
+                    onBlur={handleAmountInputBlur}
+                    onChange={handleAmmountChange}
+                  />
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 h-full">
+                    {/* <Image src="https://www.svgrepo.com/show/349356/ethereum.svg" alt="ether" /> */}
+                    {activeTab === Tabs.Buy ? <EtherIcon width={20} height={20} /> : <RWFIcon width={30} height={30} />}
+                  </div>
+                </div>
+
+                <div className="w-full mt-4 pl-4 pr-4">
+                  {isConnected && currentChain && currentChain.id === chain.id ? (
+                    <button
+                      className="btn btn-primary w-full rounded-md"
+                      onClick={handleClick}
+                      disabled={writeContractStatus === "pending"}
+                    >
+                      {writeContractStatus === "pending" ? (
+                        <SpinnerIcon />
+                      ) : activeTab === Tabs.Buy ? (
+                        "Buy Now"
+                      ) : (
+                        "Redeem"
+                      )}
+                    </button>
+                  ) : isConnected && currentChain?.id !== chain.id ? (
+                    <button
+                      className="btn btn-primary btn-error w-full rounded-md"
+                      onClick={() => {
+                        switchChain({ chainId: chain.id });
+                      }}
+                    >
+                      Switch Network
+                    </button>
+                  ) : (
+                    <RainbowKitCustomConnectButton />
+                  )}
+                </div>
+
+                {writeContractError && (
+                  <div
+                    role="alert"
+                    className="w-auto mt-4 ml-4 mr-4 text-sm text-red-800 rounded-md bg-red-50 dark:bg-gray-800 dark:text-red-400"
                   >
-                    {writeContractStatus === "pending" ? (
-                      <SpinnerIcon />
-                    ) : activeTab === Tabs.Buy ? (
-                      "Buy Now"
-                    ) : (
-                      "Redeem"
-                    )}
-                  </button>
-                ) : isConnected && currentChain?.id !== chain.id ? (
-                  <button
-                    className="btn btn-primary btn-error w-full rounded-md"
-                    onClick={() => {
-                      switchChain({ chainId: chain.id });
-                    }}
-                  >
-                    Switch Network
-                  </button>
-                ) : (
-                  <RainbowKitCustomConnectButton />
+                    <span>{writeContractError.message}</span>
+                  </div>
                 )}
               </div>
-
-              {writeContractError && (
-                <div
-                  role="alert"
-                  className="w-auto mt-4 ml-4 mr-4 text-sm text-red-800 rounded-md bg-red-50 dark:bg-gray-800 dark:text-red-400"
-                >
-                  <span>{writeContractError.message}</span>
-                </div>
-              )}
             </div>
           </div>
         </div>
