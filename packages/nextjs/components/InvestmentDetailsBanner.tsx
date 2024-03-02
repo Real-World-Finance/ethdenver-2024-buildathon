@@ -1,7 +1,8 @@
 import React from "react";
 import Image from "next/image";
+import { formatEther } from "viem";
 import { XMarkIcon } from "@heroicons/react/20/solid";
-import { Investment } from "~~/components/InvestmentCard";
+import { Investment } from "~~/types/Investment";
 
 type Props = {
   investment: Investment;
@@ -15,12 +16,14 @@ export default function InvestmentDetailsBanner({ investment, className }: Props
     >
       <div className="flex flex-col w-full md:px-[50px]">
         <div className="flex flex-row items-center justify-between">
-          <Image src={investment.imageUrl} alt={investment.name} width={100} height={100} style={{ marginRight: 30 }} />
-          <h1 className="font-semibold text-4xl leading-6 text-gray-900 mb-0">{investment.name}</h1>
-          <p className="text-2xl leading-6 text-gray-900 text-right">${investment.price}</p>
+          <Image src={investment.imgUrl} alt={investment.name} width={100} height={100} style={{ borderRadius: 10 }} />
+          <h1 className="font-semibold text-4xl leading-6 text-gray-900 mb-0">
+            {investment.name} ({investment.symbol})
+          </h1>
+          <p className="text-2xl leading-6 text-gray-900 text-right">${formatEther(investment.price)}</p>
         </div>
 
-        <p className="text-md leading-6 text-gray-900">{investment.description}</p>
+        {/* <p className="text-md leading-6 text-gray-900">{investment.description}</p> */}
       </div>
       <div
         className="absolute left-[max(-7rem,calc(50%-52rem))] top-1/2 -z-10 -translate-y-1/2 transform-gpu blur-2xl"

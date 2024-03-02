@@ -13,7 +13,7 @@ import { mockInvestments } from "~~/services/mockInvestment";
 const Home: NextPage = () => {
   return (
     <div className="flex justify-around pt-30">
-      <div className="grid lg:grid-cols-3 lg:gap-4 md:grid-cols-2 sm:grid-cols-1 gap-x-4 gap-y-6 mt-[30px]">
+      <div className="grid lg:grid-cols-3 lg:gap-4 md:grid-cols-2 sm:grid-cols-1 gap-x-4 gap-y-6 mt-[30px] w-full h-full min-h-[80vh]">
         {investmentsList()?.length && investmentsList().map(addr => <InvestmentCard2 key={addr} contractAddr={addr} />)}
         {/* <div className="px-5">
           <h1 className="text-center mb-8">

@@ -157,8 +157,8 @@ contract RWF_Trust is ERC20, ERC20Permit, Ownable {
         payable(seller).transfer(ethAmount);
     }
 
-    function sell(uint256 tokenAmount) public {
-        _sell(payable(msg.sender), tokenAmount);
+    function sell() public payable {
+        _sell(payable(msg.sender), msg.value);
     }
 
     function investmentExecution() public payable onlyOwner {
@@ -200,7 +200,12 @@ contract RWF_Trust is ERC20, ERC20Permit, Ownable {
             '"minOwnedTokens": ', Strings.toString(getMinOwnedTokens()), ',\n',
             '"availableTokens": ', Strings.toString(getAvailableTokens()), ',\n',
             '"nftContractAddress": "', Strings.toHexString(getNftContractAddress()), '",\n',
-            '"imgUrl": "', getImgUrl(), '"\n',
+            '"imgUrl": "', getImgUrl(), '",\n',
+            '"name": "', name(), '",\n',
+            '"symbol": "', symbol(), '",\n',
+            '"expectedROI": ', Strings.toString(expectedROI), ',\n',
+            '"pctCashReserve": ', Strings.toString(pctCashReserve), ',\n',
+            '"profitPct": ', Strings.toString(profitPct), '\n', // no , in last item
         "}");
     }
 }

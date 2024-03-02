@@ -632,7 +632,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     RWF_Trust: {
-      address: "0x0165878A594ca255338adfa4d48449f69242Eb8F",
+      address: "0xB7f8BC63BbcaD18155201308C8f3540b07f84F5e",
       abi: [
         {
           inputs: [
@@ -1330,16 +1330,10 @@ const deployedContracts = {
           type: "function",
         },
         {
-          inputs: [
-            {
-              internalType: "uint256",
-              name: "tokenAmount",
-              type: "uint256",
-            },
-          ],
+          inputs: [],
           name: "sell",
           outputs: [],
-          stateMutability: "nonpayable",
+          stateMutability: "payable",
           type: "function",
         },
         {
@@ -1503,7 +1497,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     TokenFactory: {
-      address: "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
+      address: "0x610178dA211FEF7D417bC0e6FeD39F05609AD788",
       abi: [
         {
           inputs: [
@@ -2292,7 +2286,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     RWF_Trust: {
-      address: "0xFbbC0b91B8be860869717a76467b5669b8BC75C8",
+      address: "0x21a3780071229f2A905f3c8Bd276EcB1b7c77342",
       abi: [
         {
           inputs: [
@@ -2990,16 +2984,10 @@ const deployedContracts = {
           type: "function",
         },
         {
-          inputs: [
-            {
-              internalType: "uint256",
-              name: "tokenAmount",
-              type: "uint256",
-            },
-          ],
+          inputs: [],
           name: "sell",
           outputs: [],
-          stateMutability: "nonpayable",
+          stateMutability: "payable",
           type: "function",
         },
         {
@@ -3163,7 +3151,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     TokenFactory: {
-      address: "0x62BE94A2Af50Cc39C89493E369098648762fb993",
+      address: "0x84E96Eb8218e84826B474dD50f63fcbF9719ffF9",
       abi: [
         {
           inputs: [
