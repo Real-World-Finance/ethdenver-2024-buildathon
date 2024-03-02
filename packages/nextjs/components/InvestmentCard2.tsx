@@ -1,19 +1,31 @@
 "use client";
-import React from "react";
+
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { createConfig, http, readContract } from "@wagmi/core";
 import { hardhat, mainnet, sepolia } from "@wagmi/core/chains";
 import { useAccount, useSimulateContract, useSwitchChain, useWalletClient, useWriteContract } from "wagmi";
 import deployedContracts from "~~/contracts/deployedContracts";
+import { isProd } from "~~/utils/env";
 
-const chain = process.env.NODE_ENV === "production" ? mainnet : process.env.NODE_ENV === "local" ? hardhat : sepolia;
-const { abi: TokenAbi } = deployedContracts[hardhat.id].RWF_Trust;
+const chain = isProd ? sepolia : process.env.NODE_ENV === "local" ? hardhat : sepolia;
+const { abi: TokenAbi } = deployedContracts[chain.id].RWF_Trust;
 
-export default function InvestmentCard2({ investmentAddress }) {
-    const router = useRouter();
-    const { isConnected, chain: currentChain, address: connectedAddress } = useAccount();
-    const getMetadata = readContract(
+type Props = {
+  contractAddr: string;
+};
+
+export default function InvestmentCard2({ contractAddr }: Props) {
+  const router = useRouter();
+  const [metadata, setMetadata] = useState<string | null>(null);
+  const { isConnected, chain: currentChain, address: connectedAddress } = useAccount();
+  console.log("card2 chain:", chain);
+  console.log("card2 connectedAddress:", connectedAddress);
+  console.log("card2 tokenAbi:", TokenAbi);
+  useEffect(() => {
+    if (!metadata && connectedAddress) {
+      readContract(
         createConfig({
           chains: [chain],
           transports: {
@@ -24,18 +36,26 @@ export default function InvestmentCard2({ investmentAddress }) {
           abi: TokenAbi,
           account: connectedAddress,
           functionName: "getMetadata",
-          //address: deployedContracts[chain.id].RWF_Trust.address as `0x${string}`,
-          address: investmentAddress as `0x${string}`,
+          address: contractAddr as `0x${string}`,
+          args: [],
         },
-      );
-    return (
-        <div
-          className="card w-96 bg-base-100 shadow-xl transition ease-in-out hover:bg-slate-50 hover:cursor-pointer"
-          onClick={() => router.push(`/investment/${investmentAddress}`)}
-        >
-           <p>InvAddr {investmentAddress}</p>
-           <p>Metadata {getMetadata}</p>
+      ).then(result => {
+        console.log("card2 result:", result);
+        setMetadata(result);
+      });
+    }
+  }, [connectedAddress, contractAddr, metadata]);
 
-        </div>
-    );
+  return (
+    <div
+      className="card w-96 bg-base-100 shadow-xl transition ease-in-out hover:bg-slate-50 hover:cursor-pointer"
+      onClick={() => {
+        console.log("contractAddr", contractAddr);
+        router.push(`/investment/${contractAddr}`);
+      }}
+    >
+      <p>InvAddr {contractAddr}</p>
+      <p>Metadata {metadata}</p>
+    </div>
+  );
 }
