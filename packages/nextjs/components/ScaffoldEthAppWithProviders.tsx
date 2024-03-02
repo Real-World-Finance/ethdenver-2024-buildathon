@@ -39,13 +39,13 @@ const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
 export const queryClient = new QueryClient();
 
 export const ScaffoldEthAppWithProviders = ({ children }: { children: React.ReactNode }) => {
-  const { isDarkMode } = useDarkMode();
-  console.log("isDarkMode", isDarkMode);
+  // const { isDarkMode } = useDarkMode();
+
   return (
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
         <ProgressBar />
-        <RainbowKitProvider avatar={BlockieAvatar} theme={isDarkMode ? darkTheme() : lightTheme()}>
+        <RainbowKitProvider avatar={BlockieAvatar} theme={lightTheme()}>
           <ScaffoldEthApp>{children}</ScaffoldEthApp>
         </RainbowKitProvider>
       </QueryClientProvider>
