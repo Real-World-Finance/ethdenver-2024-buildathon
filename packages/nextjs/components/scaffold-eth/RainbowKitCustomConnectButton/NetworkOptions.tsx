@@ -14,7 +14,7 @@ export const NetworkOptions = ({ hidden = false }: NetworkOptionsProps) => {
   const { isDarkMode } = useDarkMode();
   const { switchChain } = useSwitchChain();
   const { chain } = useAccount();
-  console.log('allowedNetworks:', allowedNetworks);
+
   return (
     <>
       {allowedNetworks
@@ -25,6 +25,7 @@ export const NetworkOptions = ({ hidden = false }: NetworkOptionsProps) => {
               className="menu-item btn-sm !rounded-xl flex gap-3 py-3 whitespace-nowrap"
               type="button"
               onClick={() => {
+                console.log("chain: ", allowedNetwork);
                 switchChain?.({ chainId: allowedNetwork.id });
               }}
             >

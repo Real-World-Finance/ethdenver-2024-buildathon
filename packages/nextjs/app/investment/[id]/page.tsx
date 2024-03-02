@@ -1,16 +1,22 @@
 "use client";
 
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { mainnet, sepolia } from "@wagmi/core/chains";
+import { hardhat, mainnet, sepolia } from "@wagmi/core/chains";
 import type { NextPage } from "next";
+import { parseEther } from "viem";
 import { useAccount, useSwitchChain, useWalletClient, useWriteContract } from "wagmi";
 import EtherIcon from "~~/components/EtherIcon";
 // for development only
 import Banner from "~~/components/InvestmentDetailsBanner";
+import RWFIcon from "~~/components/RWFIcon";
 import { RainbowKitCustomConnectButton } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton";
-import TokenAbi from "~~/contracts/TokenShop";
+// import TokenContractJson from "~~/contracts/TokenShop.sol/RWF_Trust.json";
+import deployedContracts from "~~/contracts/deployedContracts";
 import { mockInvestments } from "~~/services/mockInvestment";
+
+const chain = process.env.NODE_ENV === "production" ? mainnet : process.env.NODE_ENV === "local" ? hardhat : sepolia;
+const { abi: TokenAbi } = deployedContracts[chain.id].RWF_Trust;
 
 const validAmountRegex = /^[0-9]{0,78}\.?[0-9]{0,18}$/;
 
@@ -33,7 +39,7 @@ const InvestmentDetails: NextPage = () => {
   // query for investment details
   const investment = mockInvestments[0];
 
-  const { data: hash, writeContract } = useWriteContract();
+  const { data: txnHash, status: writeContractStatus, writeContract } = useWriteContract();
   const { isConnected, chain: currentChain, address: connectedAddress } = useAccount();
   // console.log("account:", account);
   const walletClient = useWalletClient();
@@ -41,11 +47,6 @@ const InvestmentDetails: NextPage = () => {
   const { error: switchChainError, switchChain } = useSwitchChain();
 
   const getTabClass = (tab: Tabs) => (activeTab === tab ? activeTabClass : inactiveTabClass);
-
-  const chain = process.env.NODE_ENV === "production" ? mainnet : sepolia;
-
-  console.log("currentChain:", currentChain);
-  console.log("isConnected:", isConnected);
 
   const handleAmountInputBlur = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,24 +68,47 @@ const InvestmentDetails: NextPage = () => {
   );
 
   const handleBuy = async () => {
-    // const txn = await writeContract({
-    //   address: connectedAddress as `0x${string}`,
-    //   abi:
-    // });
-    // console.log("txn:", txn);
     console.log("handleBuy");
+    console.log(parseEther(amount));
+    if (Number(amount) > 0 && writeContract) {
+      const txn = await writeContract({
+        address: deployedContracts[chain.id].RWF_Trust.address as `0x${string}`,
+        abi: TokenAbi,
+        functionName: "buy",
+        value: parseEther(amount),
+        args: [],
+      });
+      console.log("txn:", txn);
+    }
   };
 
-  const handleSell = () => {
+  const handleSell = async () => {
     console.log("handleSell");
+    console.log(parseEther(amount));
+    if (Number(amount) > 0 && writeContract) {
+      const txn = await writeContract({
+        address: deployedContracts[chain.id].RWF_Trust.address as `0x${string}`,
+        abi: TokenAbi,
+        functionName: "sell",
+        args: [parseEther(amount)],
+      });
+      console.log("txn:", txn);
+      console.log("handleBuy");
+    }
   };
 
-  const handleClick = useCallback(
-    async (e: React.ChangeEvent<HTMLInputElement>) => {
-      return activeTab === Tabs.Buy ? handleBuy() : handleSell();
-    },
-    [activeTab],
-  );
+  const handleClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    return activeTab === Tabs.Buy ? await handleBuy() : await handleSell();
+  };
+
+  const handleChangeTab = (tab: Tabs) => {
+    setActiveTab(tab);
+    setAmount("0");
+  };
+
+  useEffect(() => {
+    if (txnHash) console.log(txnHash);
+  }, [txnHash]);
 
   return (
     <>
@@ -119,12 +143,12 @@ const InvestmentDetails: NextPage = () => {
               <div className="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
                 <ul className="flex flex-wrap -mb-px">
                   <li className="me-2">
-                    <span className={getTabClass(Tabs.Buy)} onClick={() => setActiveTab(Tabs.Buy)}>
+                    <span className={getTabClass(Tabs.Buy)} onClick={() => handleChangeTab(Tabs.Buy)}>
                       Buy
                     </span>
                   </li>
                   <li className="me-2">
-                    <span className={getTabClass(Tabs.Sell)} onClick={() => setActiveTab(Tabs.Sell)}>
+                    <span className={getTabClass(Tabs.Sell)} onClick={() => handleChangeTab(Tabs.Sell)}>
                       Sell
                     </span>
                   </li>
@@ -145,16 +169,22 @@ const InvestmentDetails: NextPage = () => {
                 />
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 h-full">
                   {/* <Image src="https://www.svgrepo.com/show/349356/ethereum.svg" alt="ether" /> */}
-                  <EtherIcon width={20} height={20} />
+                  {activeTab === Tabs.Buy ? <EtherIcon width={20} height={20} /> : <RWFIcon width={30} height={30} />}
                 </div>
               </div>
 
               {isConnected && currentChain && currentChain.id === chain.id ? (
-                <button className="btn btn-primary" onClick={handleClick}>
+                <button className="btn btn-primary" onClick={handleClick} disabled={writeContractStatus === "pending"}>
                   {activeTab === Tabs.Buy ? "Buy Now" : "Redeem"}
+                  {/* <svg className="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24"></svg> */}
                 </button>
               ) : isConnected && currentChain?.id !== chain.id ? (
-                <button className="btn btn-primary btn-error" onClick={() => switchChain({ chainId: chain.id })}>
+                <button
+                  className="btn btn-primary btn-error"
+                  onClick={() => {
+                    switchChain({ chainId: chain.id });
+                  }}
+                >
                   Switch Network
                 </button>
               ) : (

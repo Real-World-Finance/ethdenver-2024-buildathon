@@ -1,7 +1,7 @@
 const EtherIcon = ({ width = 30, height = 30, style = {} }) => {
   return (
     <svg
-    //   xmlns="http://www.w3.org/2000/svg"
+      xmlns="http://www.w3.org/2000/svg"
       width={width}
       height={height}
       preserveAspectRatio="xMidYMid"
