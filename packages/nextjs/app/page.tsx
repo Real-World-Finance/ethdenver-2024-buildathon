@@ -1,19 +1,22 @@
 import React from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/router";
+//import Image from "next/image";
+//import Link from "next/link";
+//import { useRouter } from "next/router";
 import type { NextPage } from "next";
-import { mock } from "wagmi/connectors";
-import { BugAntIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import {mockInvestments} from "~~/services/mockInvestment";
-import InvestmentCard from "~~/components/InvestmentCard";
+//import { mock } from "wagmi/connectors";
+//import { BugAntIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+//import {mockInvestments} from "~~/services/mockInvestment";
+import {investmentsList} from "~~/services/investmentsList";
+import InvestmentCard2 from "~~/components/InvestmentCard2";
 
 const Home: NextPage = () => {
   return (
     <div className="flex justify-around">
       <div className="grid lg:grid-cols-3 lg:gap-4 md:grid-cols-2 sm:grid-cols-1 gap-x-4 gap-y-6">
-        {mockInvestments?.length &&
-          mockInvestments.map(investment => <InvestmentCard key={investment.name} investment={investment} />)}
+        {/*mockInvestments?.length &&
+          mockInvestments.map(investment => <InvestmentCard key={investment.name} investment={investment} />)*/}
+        {investmentsList()?.length &&
+          investmentsList().map(investment => <InvestmentCard2 investmentAddress={investment} />)}
         {/* <div className="px-5">
           <h1 className="text-center mb-8">
             <span className="block text-2xl mb-2">Welcome to</span>
