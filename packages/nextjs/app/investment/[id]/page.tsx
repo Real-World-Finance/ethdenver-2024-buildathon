@@ -11,6 +11,7 @@ import Banner from "~~/components/InvestmentDetailsBanner";
 import { RainbowKitCustomConnectButton } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton";
 import TokenAbi from "~~/contracts/TokenShop";
 import { mockInvestments } from "~~/services/mockInvestment";
+import { parseEther } from "viem";
 
 const validAmountRegex = /^[0-9]{0,78}\.?[0-9]{0,18}$/;
 
@@ -67,11 +68,13 @@ const InvestmentDetails: NextPage = () => {
   );
 
   const handleBuy = async () => {
-    // const txn = await writeContract({
-    //   address: connectedAddress as `0x${string}`,
-    //   abi:
-    // });
-    // console.log("txn:", txn);
+    const txn = await writeContract({
+      address: connectedAddress as `0x${string}`,
+      abi: TokenAbi,
+      functionName: "buy",
+      value: parseEther(amount),
+    });
+    console.log("txn:", txn);
     console.log("handleBuy");
   };
 
