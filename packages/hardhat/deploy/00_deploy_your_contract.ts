@@ -43,7 +43,7 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
       "1709420650",
       "15000000000000000000",
       "10000000000000000000",
-      "20000000000000000000",
+      "100000000000000000000",
       deployer,
       "15000000000000000000",
       "https://pbs.twimg.com/media/GHhtNknWMAAK4hZ?format=jpg&name=4096x4096",

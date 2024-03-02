@@ -2,17 +2,20 @@
 
 import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import { createConfig, http, readContract } from "@wagmi/core";
 import { hardhat, mainnet, sepolia } from "@wagmi/core/chains";
 import type { NextPage } from "next";
-import { parseEther } from "viem";
-import { useAccount, useSwitchChain, useWalletClient, useWriteContract } from "wagmi";
+import { parseEther, parseUnits } from "viem";
+import { useAccount, useSimulateContract, useSwitchChain, useWalletClient, useWriteContract } from "wagmi";
 import EtherIcon from "~~/components/EtherIcon";
 // for development only
 import Banner from "~~/components/InvestmentDetailsBanner";
 import RWFIcon from "~~/components/RWFIcon";
+import SpinnerIcon from "~~/components/SpinnerIcon";
 import { RainbowKitCustomConnectButton } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton";
 // import TokenContractJson from "~~/contracts/TokenShop.sol/RWF_Trust.json";
 import deployedContracts from "~~/contracts/deployedContracts";
+import scaffoldConfig from "~~/scaffold.config";
 import { mockInvestments } from "~~/services/mockInvestment";
 
 const chain = process.env.NODE_ENV === "production" ? mainnet : process.env.NODE_ENV === "local" ? hardhat : sepolia;
@@ -39,11 +42,8 @@ const InvestmentDetails: NextPage = () => {
   // query for investment details
   const investment = mockInvestments[0];
 
-  const { data: txnHash, status: writeContractStatus, writeContract } = useWriteContract();
+  const { data: txnHash, status: writeContractStatus, error: writeContractError, writeContract } = useWriteContract();
   const { isConnected, chain: currentChain, address: connectedAddress } = useAccount();
-  // console.log("account:", account);
-  const walletClient = useWalletClient();
-  // console.log("walletClient:", walletClient);
   const { error: switchChainError, switchChain } = useSwitchChain();
 
   const getTabClass = (tab: Tabs) => (activeTab === tab ? activeTabClass : inactiveTabClass);
@@ -68,36 +68,46 @@ const InvestmentDetails: NextPage = () => {
   );
 
   const handleBuy = async () => {
-    console.log("handleBuy");
-    console.log(parseEther(amount));
     if (Number(amount) > 0 && writeContract) {
-      const txn = await writeContract({
+      await writeContract({
         address: deployedContracts[chain.id].RWF_Trust.address as `0x${string}`,
         abi: TokenAbi,
         functionName: "buy",
         value: parseEther(amount),
         args: [],
       });
-      console.log("txn:", txn);
     }
   };
 
   const handleSell = async () => {
-    console.log("handleSell");
-    console.log(parseEther(amount));
+    const decimals = await readContract(
+      createConfig({
+        chains: [chain],
+        transports: {
+          [chain.id]: http(),
+        },
+      }),
+      {
+        abi: TokenAbi,
+        account: connectedAddress,
+        functionName: "decimals",
+        address: deployedContracts[chain.id].RWF_Trust.address as `0x${string}`,
+      },
+    );
+
     if (Number(amount) > 0 && writeContract) {
-      const txn = await writeContract({
+      await writeContract({
         address: deployedContracts[chain.id].RWF_Trust.address as `0x${string}`,
         abi: TokenAbi,
         functionName: "sell",
-        args: [parseEther(amount)],
+        value: parseUnits(amount, decimals),
+        args: [],
+        account: connectedAddress,
       });
-      console.log("txn:", txn);
-      console.log("handleBuy");
     }
   };
 
-  const handleClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleClick = async () => {
     return activeTab === Tabs.Buy ? await handleBuy() : await handleSell();
   };
 
@@ -136,7 +146,7 @@ const InvestmentDetails: NextPage = () => {
           </div>
         </div>
         <div className="card w-96 bg-base-100 shadow-xl transition ease-in-out hover:bg-slate-50 hover:cursor-pointer w-full">
-          <h1>Invest in {investment.name}</h1>
+          <h1 className="pl-4 pr-4 pt-4">Invest in {investment.name}</h1>
           <div className="card-actions justify-start">
             <div className="flex flex-col w-full">
               {/* Tabs */}
@@ -155,7 +165,7 @@ const InvestmentDetails: NextPage = () => {
                 </ul>
               </div>
 
-              <div className="mt-2 relative">
+              <div className="mt-4 relative pl-4 pr-4">
                 <input
                   type="string"
                   name="amount"
@@ -173,23 +183,42 @@ const InvestmentDetails: NextPage = () => {
                 </div>
               </div>
 
-              {isConnected && currentChain && currentChain.id === chain.id ? (
-                <button className="btn btn-primary" onClick={handleClick} disabled={writeContractStatus === "pending"}>
-                  {activeTab === Tabs.Buy ? "Buy Now" : "Redeem"}
-                  {/* <svg className="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24"></svg> */}
-                </button>
-              ) : isConnected && currentChain?.id !== chain.id ? (
-                <button
-                  className="btn btn-primary btn-error"
-                  onClick={() => {
-                    switchChain({ chainId: chain.id });
-                  }}
+              <div className="w-full mt-4 pl-4 pr-4">
+                {isConnected && currentChain && currentChain.id === chain.id ? (
+                  <button
+                    className="btn btn-primary w-full rounded-md"
+                    onClick={handleClick}
+                    disabled={writeContractStatus === "pending"}
+                  >
+                    {writeContractStatus === "pending" ? (
+                      <SpinnerIcon />
+                    ) : activeTab === Tabs.Buy ? (
+                      "Buy Now"
+                    ) : (
+                      "Redeem"
+                    )}
+                  </button>
+                ) : isConnected && currentChain?.id !== chain.id ? (
+                  <button
+                    className="btn btn-primary btn-error w-full rounded-md"
+                    onClick={() => {
+                      switchChain({ chainId: chain.id });
+                    }}
+                  >
+                    Switch Network
+                  </button>
+                ) : (
+                  <RainbowKitCustomConnectButton />
+                )}
+              </div>
+
+              {writeContractError && (
+                <div
+                  role="alert"
+                  className="w-auto mt-4 ml-4 mr-4 text-sm text-red-800 rounded-md bg-red-50 dark:bg-gray-800 dark:text-red-400"
                 >
-                  Switch Network
-                </button>
-              ) : (
-                // <button className="btn btn-primary" onClick={openConnectModal}>Connect Wallet</button>
-                <RainbowKitCustomConnectButton />
+                  <span>{writeContractError.message}</span>
+                </div>
               )}
             </div>
           </div>
