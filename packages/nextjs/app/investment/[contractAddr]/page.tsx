@@ -151,6 +151,7 @@ const InvestmentDetails: NextPage = () => {
 
   return (
     <>
+      {!connectedAddress && <RainbowKitCustomConnectButton className={"w-1/2 h-[40px]"} />}
       {!!metadata ? (
         <div className="justify-center grid grid-cols-1 gap-4 justify-items-center ml-5 mr-5">
           <Banner investment={metadata} className="w-full max-w-screen-md mt-[25px] mb-[25px]" />
@@ -256,7 +257,7 @@ const InvestmentDetails: NextPage = () => {
                         Switch Network
                       </button>
                     ) : (
-                      <RainbowKitCustomConnectButton />
+                      <RainbowKitCustomConnectButton className={"w-full h-[40px]"} />
                     )}
                   </div>
 
@@ -273,8 +274,10 @@ const InvestmentDetails: NextPage = () => {
             </div>
           </div>
         </div>
-      ) : (
+      ) : !!connectedAddress ? (
         <LoaderIcon />
+      ) : (
+        <></>
       )}
     </>
   );
