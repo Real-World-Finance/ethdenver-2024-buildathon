@@ -81,7 +81,7 @@ export default function InvestmentCard2({ contractAddr }: Props) {
         </div>
         <div className="flex flex-row justify-between">
           <h3>Early Withdrawal Penalty</h3>
-          <h3>${formatEther(metadata.earlyWithdrawPenalty)}</h3>
+          <h3>{formatEther(metadata.earlyWithdrawPenalty)}%</h3>
         </div>
       </div>
     </div>

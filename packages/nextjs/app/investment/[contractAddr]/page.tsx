@@ -174,16 +174,12 @@ const InvestmentDetails: NextPage = () => {
                   <div>{formatEther(metadata.expectedROI)}%</div>
                 </div>
                 <div className="flex flex-row gap-x-[8rem]">
-                  <div className="min-w-[180px]">% Ether In Reserve</div>
-                  <div>{formatEther(metadata.pctCashReserve)}%</div>
-                </div>
-                <div className="flex flex-row gap-x-[8rem]">
                   <div className="min-w-[180px]">% Trust Profit</div>
                   <div>{formatEther(metadata.profitPct)}%</div>
                 </div>
                 <div className="flex flex-row gap-x-[8rem]">
                   <div className="min-w-[180px]">Early Withdrawal Penalty</div>
-                  <div className="text-left justify-left">${formatEther(metadata.earlyWithdrawPenalty)}</div>
+                  <div className="text-left justify-left">{formatEther(metadata.earlyWithdrawPenalty)}%</div>
                 </div>
               </div>
               <div className="card-actions justify-start">
