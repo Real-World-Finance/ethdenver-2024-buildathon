@@ -78,3 +78,10 @@ To know more about its features, check out our [website](https://scaffoldeth.io)
 We welcome contributions to Scaffold-ETH 2!
 
 Please see [CONTRIBUTING.MD](https://github.com/scaffold-eth/scaffold-eth-2/blob/main/CONTRIBUTING.md) for more information and guidelines for contributing to Scaffold-ETH 2.
+
+# Real World Finance
+
+## Running on server or locally
+```sh
+sudo docker run -d --rm -it -v"$PWD":/mnt -u$UID:$(id -g) -p80:3000 -p8545:8545 --name ethdenver2024 node sh -c 'cd /mnt && yarn start'
+```
