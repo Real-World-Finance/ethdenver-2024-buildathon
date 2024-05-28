@@ -38,14 +38,14 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
     args: [
       "BufficornCastle",
       "BCC",
-      "500000",
-      "1000000000000000000",
-      "1709420650",
-      "15000000000000000000",
-      "10000000000000000000",
-      "100000000000000000000",
-      deployer,
-      "15000000000000000000",
+      "500000", //max tokens, if they are 1 USD initially then this is in USD too
+      "1000000000000000000", //price in USD 10**18
+      Math.round(new Date().valueOf() / 1000) + 86400, //Unix Timestamp of due date
+      "15000000000000000000", //15% ROI
+      "10000000000000000000", //10% early withdraw penalty
+      "20000000000000000000", //20% cash reserve
+      deployer, //trust address
+      "15000000000000000000", //15% of the profit for the trust
       "https://pbs.twimg.com/media/GHhtNknWMAAK4hZ?format=jpg&name=4096x4096",
     ],
     log: true,
