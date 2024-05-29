@@ -66,11 +66,15 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
 
   // Get the deployed contract to interact with it after deploying.
   const tokenShopFactory = await hre.ethers.getContract<Contract>("TokenFactory", deployer);
-
   const tokenFactory = await hre.ethers.getContract<Contract>("RWF_Trust", deployer);
+  const nftpoi = await hre.ethers.getContract<Contract>("NFTPoI", deployer);
+
+  await tokenFactory.setNftContractAddress(nftpoi.getAddress());
+  await nftpoi.transferOwnership(tokenFactory.getAddress());
 
   console.log("factory owner:", await tokenShopFactory.owner());
   console.log("token owner:", await tokenFactory.owner());
+  console.log("NFTPoI owner:", await nftpoi.owner());
 
   // await tokenShopFactory.createToken(
   //   "BufficornCastle",
