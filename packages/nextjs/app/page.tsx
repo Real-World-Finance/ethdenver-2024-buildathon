@@ -6,12 +6,12 @@ import React from "react";
 //import { useRouter } from "next/router";
 import type { NextPage } from "next";
 import { useAccount } from "wagmi";
-import InvestmentCard from "~~/components/InvestmentCard";
+//import InvestmentCard from "~~/components/InvestmentCard";
 import InvestmentCard2 from "~~/components/InvestmentCard2";
 import { investmentsList } from "~~/services/investmentsList";
 //import { mock } from "wagmi/connectors";
 //import { BugAntIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { mockInvestments } from "~~/services/mockInvestment";
+//import { mockInvestments } from "~~/services/mockInvestment";
 
 const Home: NextPage = () => {
   const { chain: currentChain } = useAccount();
