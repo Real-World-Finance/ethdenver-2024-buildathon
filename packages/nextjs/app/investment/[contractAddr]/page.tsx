@@ -1,6 +1,11 @@
 "use client";
 
-import React, { Suspense, useCallback, useEffect, useState } from "react";
+import React, {
+  /*Suspense,*/
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
@@ -13,14 +18,14 @@ import { useAccount, useSimulateContract, useSwitchChain, useWalletClient, useWr
 import EtherIcon from "~~/components/EtherIcon";
 // for development only
 import Banner from "~~/components/InvestmentDetailsBanner";
-import InvestmentExtraDetails from "~~/components/InvestmentExtraDetails";
-import RWFIcon from "~~/components/RWFIcon";
+//import InvestmentExtraDetails from "~~/components/InvestmentExtraDetails";
+//import RWFIcon from "~~/components/RWFIcon";
 import SpinnerIcon from "~~/components/SpinnerIcon";
 import { RainbowKitCustomConnectButton } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton";
 // import TokenContractJson from "~~/contracts/TokenShop.sol/RWF_Trust.json";
 import deployedContracts from "~~/contracts/deployedContracts";
-import scaffoldConfig from "~~/scaffold.config";
-import { mockInvestments } from "~~/services/mockInvestment";
+//import scaffoldConfig from "~~/scaffold.config";
+//import { mockInvestments } from "~~/services/mockInvestment";
 import { Investment } from "~~/types/Investment";
 import { isProd } from "~~/utils/env";
 
@@ -41,7 +46,7 @@ const inactiveTabClass =
 
 const InvestmentDetails: NextPage = () => {
   const { contractAddr } = useParams();
-  const queryClient = useQueryClient();
+  //const queryClient = useQueryClient();
 
   const [activeTab, setActiveTab] = useState(Tabs.Buy);
   const [amount, setAmount] = useState("0");
@@ -51,7 +56,7 @@ const InvestmentDetails: NextPage = () => {
 
   const { data: txnHash, status: writeContractStatus, error: writeContractError, writeContract } = useWriteContract();
   const { isConnected, chain: currentChain, address: connectedAddress } = useAccount();
-  const { error: switchChainError, switchChain } = useSwitchChain();
+  const { /*error: switchChainError,*/ switchChain } = useSwitchChain();
 
   const getTabClass = (tab: Tabs) => (activeTab === tab ? activeTabClass : inactiveTabClass);
 

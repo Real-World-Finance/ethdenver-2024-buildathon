@@ -4,7 +4,11 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { createConfig, http, readContract } from "@wagmi/core";
-import { hardhat, mainnet, sepolia } from "@wagmi/core/chains";
+import {
+  hardhat,
+  /*mainnet,*/
+  sepolia,
+} from "@wagmi/core/chains";
 import { formatEther } from "viem";
 import { useAccount, useSimulateContract, useSwitchChain, useWalletClient, useWriteContract } from "wagmi";
 import SpinnerIcon from "~~/components/SpinnerIcon";
