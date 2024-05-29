@@ -12,7 +12,7 @@ import deployedContracts from "~~/contracts/deployedContracts";
 import { Investment } from "~~/types/Investment";
 import { isProd } from "~~/utils/env";
 
-const chain = isProd ? sepolia : process.env.NODE_ENV === "local" ? hardhat : sepolia;
+const chain = isProd ? sepolia : process.env.NODE_ENV === "development" ? hardhat : sepolia;
 const { abi: TokenAbi } = deployedContracts[chain.id].RWF_Trust;
 
 type Props = {

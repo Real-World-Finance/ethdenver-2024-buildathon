@@ -24,7 +24,7 @@ import { mockInvestments } from "~~/services/mockInvestment";
 import { Investment } from "~~/types/Investment";
 import { isProd } from "~~/utils/env";
 
-const chain = isProd ? sepolia : process.env.NODE_ENV === "local" ? hardhat : sepolia;
+const chain = isProd ? sepolia : process.env.NODE_ENV === "development" ? hardhat : sepolia;
 const { abi: TokenAbi } = deployedContracts[chain.id].RWF_Trust;
 
 const validAmountRegex = /^[0-9]{0,78}\.?[0-9]{0,18}$/;
