@@ -129,7 +129,7 @@ contract RWF_Trust is ERC20, ERC20Permit, Ownable {
 
         // This is buyer's first token purchase. Let's give her an NFT.
         if (balanceOf(msg.sender) == tokenAmount) {
-            (bool success, ) = nftContractAddress.call(abi.encodeWithSignature("safeMint(address)", msg.sender));
+            (bool success, ) = nftContractAddress.call{value: 0}(abi.encodeWithSignature("safeMint(address)", msg.sender));
             require(success, "NFT minting failed");
         }
     }
