@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { formatEther } from "viem";
-import { XMarkIcon } from "@heroicons/react/20/solid";
+//import { XMarkIcon } from "@heroicons/react/20/solid";
 import { Investment } from "~~/types/Investment";
 
 type Props = {
@@ -12,7 +12,7 @@ type Props = {
 export default function InvestmentDetailsBanner({ investment, className }: Props) {
   return (
     <div
-      className={`${className} md:m-[30px] rounded-md relative isolate flex flex-row-reverse items-center gap-x-6 overflow-hidden bg-gray-50 px-6 py-2.5 sm:px-3.5 sm:before:flex-1 h-lvh md:content-center`}
+      className={`${className} md:m-[30px] rounded-md relative isolate flex flex-row-reverse items-center gap-x-6 overflow-hidden bg-gray-50 px-6 py-2.5 sm:px-3.5 sm:before:flex-1 md:content-center`}
     >
       <div className="flex flex-col w-full md:px-[50px]">
         <div className="flex flex-row items-center justify-between">
