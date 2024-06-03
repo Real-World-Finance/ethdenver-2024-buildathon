@@ -8,14 +8,13 @@ import React, {
 } from "react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
-import { useQueryClient } from "@tanstack/react-query";
 import { createConfig, http, readContract } from "@wagmi/core";
-import { hardhat, mainnet, sepolia } from "@wagmi/core/chains";
 import type { NextPage } from "next";
 import { LoaderIcon } from "react-hot-toast";
 import { formatEther, parseEther, parseUnits } from "viem";
-import { useAccount, useSimulateContract, useSwitchChain, useWalletClient, useWriteContract } from "wagmi";
+import { useAccount, useSwitchChain, useWriteContract } from "wagmi";
 import EtherIcon from "~~/components/EtherIcon";
+import { hardhat } from "@wagmi/core/chains";
 // for development only
 import Banner from "~~/components/InvestmentDetailsBanner";
 //import InvestmentExtraDetails from "~~/components/InvestmentExtraDetails";
@@ -24,13 +23,10 @@ import SpinnerIcon from "~~/components/SpinnerIcon";
 import { RainbowKitCustomConnectButton } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton";
 // import TokenContractJson from "~~/contracts/TokenShop.sol/RWF_Trust.json";
 import deployedContracts from "~~/contracts/deployedContracts";
+import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 //import scaffoldConfig from "~~/scaffold.config";
 //import { mockInvestments } from "~~/services/mockInvestment";
 import { Investment } from "~~/types/Investment";
-import { isProd } from "~~/utils/env";
-
-const chain = isProd ? sepolia : process.env.NODE_ENV === "development" ? hardhat : sepolia;
-const { abi: TokenAbi } = deployedContracts[chain.id].RWF_Trust;
 
 const validAmountRegex = /^[0-9]{0,78}\.?[0-9]{0,18}$/;
 
@@ -56,17 +52,20 @@ const InvestmentDetails: NextPage = () => {
 
   const { data: txnHash, status: writeContractStatus, error: writeContractError, writeContract } = useWriteContract();
   const { isConnected, chain: currentChain, address: connectedAddress } = useAccount();
-  const { /*error: switchChainError,*/ switchChain } = useSwitchChain();
-
+  const { switchChain } = useSwitchChain();
+  const contracts = deployedContracts as GenericContractsDeclaration;
+  const { abi: TokenAbi } = currentChain ?
+    contracts[currentChain.id].RWF_Trust :
+    contracts[hardhat.id].RWF_Trust;
   const getTabClass = (tab: Tabs) => (activeTab === tab ? activeTabClass : inactiveTabClass);
 
   useEffect(() => {
-    if (!metadata && connectedAddress) {
+    if (!metadata && connectedAddress && currentChain) {
       readContract(
         createConfig({
-          chains: [chain],
+          chains: [currentChain],
           transports: {
-            [chain.id]: http(),
+            [currentChain.id]: http(),
           },
         }),
         {
@@ -116,9 +115,9 @@ const InvestmentDetails: NextPage = () => {
   const handleSell = async () => {
     const decimals = await readContract(
       createConfig({
-        chains: [chain],
+        chains: [currentChain],
         transports: {
-          [chain.id]: http(),
+          [currentChain.id]: http(),
         },
       }),
       {
@@ -238,7 +237,7 @@ const InvestmentDetails: NextPage = () => {
                   </div>
 
                   <div className="w-full mt-4 pl-4 pr-4">
-                    {isConnected && currentChain && currentChain.id === chain.id ? (
+                    {isConnected && currentChain ? (
                       <button
                         className="btn btn-primary w-full rounded-md"
                         onClick={handleClick}
@@ -252,7 +251,7 @@ const InvestmentDetails: NextPage = () => {
                           "Redeem"
                         )}
                       </button>
-                    ) : isConnected && currentChain?.id !== chain.id ? (
+                    ) /* : isConnected && currentChain?.id !== chain.id ? (
                       <button
                         className="btn btn-primary btn-error w-full rounded-md"
                         onClick={() => {
@@ -261,7 +260,7 @@ const InvestmentDetails: NextPage = () => {
                       >
                         Switch Network
                       </button>
-                    ) : (
+                    ) */ : (
                       <RainbowKitCustomConnectButton className={"w-full h-[40px]"} />
                     )}
                   </div>
