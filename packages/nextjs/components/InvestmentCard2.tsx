@@ -4,20 +4,12 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { createConfig, http, readContract } from "@wagmi/core";
-import {
-  hardhat,
-  /*mainnet,*/
-  sepolia,
-} from "@wagmi/core/chains";
 import { formatEther } from "viem";
-import { useAccount, useSimulateContract, useSwitchChain, useWalletClient, useWriteContract } from "wagmi";
+import { useAccount } from "wagmi";
 import SpinnerIcon from "~~/components/SpinnerIcon";
 import deployedContracts from "~~/contracts/deployedContracts";
 import { Investment } from "~~/types/Investment";
-import { isProd } from "~~/utils/env";
-
-const chain = isProd ? sepolia : process.env.NODE_ENV === "development" ? hardhat : sepolia;
-const { abi: TokenAbi } = deployedContracts[chain.id].RWF_Trust;
+import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 
 type Props = {
   contractAddr: string;
@@ -26,15 +18,18 @@ type Props = {
 export default function InvestmentCard2({ contractAddr }: Props) {
   const router = useRouter();
   const [metadata, setMetadata] = useState<Investment | null>(null);
-  const { isConnected, chain: currentChain, address: connectedAddress } = useAccount();
+  const { chain: currentChain, address: connectedAddress } = useAccount();
+  if (!currentChain) return (<p>Connect your wallet please.</p>);
+  const contracts = deployedContracts as GenericContractsDeclaration;
+  const { abi: TokenAbi } = contracts[currentChain.id].RWF_Trust;
 
   useEffect(() => {
     if (!metadata) {
       readContract(
         createConfig({
-          chains: [chain],
+          chains: [currentChain],
           transports: {
-            [chain.id]: http(),
+            [currentChain.id]: http(),
           },
         }),
         {
