@@ -36,7 +36,7 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
     from: deployer,
     // Contract constructor arguments
     args: [
-      "BufficornCastle",
+      "Bufficorn Castle",
       "BCC",
       "500000", //max tokens, if they are 1 USD initially then this is in USD too
       "1000000000000000000", //price in USD 10**18
@@ -57,7 +57,12 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
   await deploy("NFTPoI", {
     from: deployer,
     // Contract constructor arguments
-    args: [deployer],
+    args: [
+      "Bufficorn Castle",
+      "BCC",
+      "https://ipfs.io/ipfs/QmYBwZzYjCrjUFkEGiRMLRi3P4ztmMc9dp7XhmA1Zaie6j/?",
+      deployer
+    ],
     log: true,
     // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
     // automatically mining the contract deployment transaction. There is no effect on live networks.

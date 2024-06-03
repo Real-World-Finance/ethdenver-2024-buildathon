@@ -10,14 +10,22 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 /// @custom:security-contact contacto@netlabs.com.uy
 contract NFTPoI is ERC721, ERC721Enumerable, ERC721Burnable, Ownable {
     uint256 private _nextTokenId;
+    string private _imageURL;
 
-    constructor(address initialOwner)
-        ERC721("NFT-PoI", "POI")
+    constructor(
+        string memory name,
+        string memory symbol,
+        string memory imageURL, //with ? or ?param= at the end since the tokenId will be appended
+        address initialOwner
+    )
+        ERC721(name, symbol)
         Ownable(initialOwner)
-    {}
+    {
+        _imageURL = imageURL;
+    }
 
-    function _baseURI() internal pure override returns (string memory) {
-        return "https://ipfs.io/ipfs/QmYBwZzYjCrjUFkEGiRMLRi3P4ztmMc9dp7XhmA1Zaie6j/?";
+    function _baseURI() internal view override returns (string memory) {
+        return _imageURL;
     }
 
     function safeMint(address to) public onlyOwner {
