@@ -46,7 +46,7 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
       "20000000000000000000", //20% cash reserve
       deployer, //trust address
       "15000000000000000000", //15% of the profit for the trust
-      "https://pbs.twimg.com/media/GHhtNknWMAAK4hZ?format=jpg&name=4096x4096",
+      "https://ipfs.io/ipfs/QmYBwZzYjCrjUFkEGiRMLRi3P4ztmMc9dp7XhmA1Zaie6j/",
     ],
     log: true,
     // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
