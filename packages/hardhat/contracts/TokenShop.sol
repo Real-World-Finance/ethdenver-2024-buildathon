@@ -157,8 +157,8 @@ contract RWF_Trust is ERC20, ERC20Permit, Ownable {
         payable(seller).transfer(ethAmount);
     }
 
-    function sell() public payable {
-        _sell(payable(msg.sender), msg.value);
+    function sell(uint256 tokenAmount) public {
+        _sell(payable(msg.sender), tokenAmount);
     }
 
     function investmentExecution() public payable onlyOwner {

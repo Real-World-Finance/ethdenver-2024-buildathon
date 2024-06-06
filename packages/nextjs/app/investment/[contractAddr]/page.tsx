@@ -136,8 +136,7 @@ const InvestmentDetails: NextPage = () => {
         address: contractAddr as string,
         abi: TokenAbi,
         functionName: "sell",
-        value: parseUnits(amount, decimals),
-        args: [],
+        args: [parseUnits(amount, decimals)],
         account: connectedAddress,
       });
     }
