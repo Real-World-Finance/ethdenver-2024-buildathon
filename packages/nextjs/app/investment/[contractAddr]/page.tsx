@@ -12,7 +12,7 @@ import { createConfig, http, readContract } from "@wagmi/core";
 import type { NextPage } from "next";
 import { LoaderIcon } from "react-hot-toast";
 import { formatEther, parseEther, parseUnits } from "viem";
-import { useAccount, useSwitchChain, useWriteContract } from "wagmi";
+import { useAccount, useSwitchChain, useWaitForTransactionReceipt, useWriteContract } from "wagmi";
 import EtherIcon from "~~/components/EtherIcon";
 import { hardhat } from "@wagmi/core/chains";
 // for development only
@@ -51,12 +51,16 @@ const InvestmentDetails: NextPage = () => {
   // query for investment details
 
   const { data: txnHash, status: writeContractStatus, error: writeContractError, writeContract } = useWriteContract();
+  const { isSuccess: writeContractIsConfirmed } = useWaitForTransactionReceipt({hash: txnHash});
   const { isConnected, chain: currentChain, address: connectedAddress } = useAccount();
   const { switchChain } = useSwitchChain();
   const contracts = deployedContracts as GenericContractsDeclaration;
   const { abi: TokenAbi } = currentChain ?
     contracts[currentChain.id].RWF_Trust :
     contracts[hardhat.id].RWF_Trust;
+  const { abi: NFTPoIAbi } = currentChain ?
+    contracts[currentChain.id].NFTPoI :
+    contracts[hardhat.id].NFTPoI;
   const getTabClass = (tab: Tabs) => (activeTab === tab ? activeTabClass : inactiveTabClass);
 
   useEffect(() => {
@@ -101,15 +105,14 @@ const InvestmentDetails: NextPage = () => {
   );
 
   const handleBuy = async () => {
-    if (Number(amount) > 0 && writeContract) {
-      await writeContract({
-        address: contractAddr as string,
-        abi: TokenAbi,
-        functionName: "buy",
-        value: parseEther(amount),
-        args: [],
-      });
-    }
+    if (Number(amount) <= 0 || !writeContract) return;
+    await writeContract({
+      address: contractAddr as string,
+      abi: TokenAbi,
+      functionName: "buy",
+      value: parseEther(amount),
+      args: []
+    });
   };
 
   const handleSell = async () => {
@@ -150,8 +153,45 @@ const InvestmentDetails: NextPage = () => {
   };
 
   useEffect(() => {
-    if (txnHash) console.log(txnHash);
-  }, [txnHash]);
+    if (!currentChain || !txnHash || writeContractStatus != "success" || !writeContractIsConfirmed)
+      return;
+    if (activeTab === Tabs.Buy) {
+      console.log("New Buy transaction:", txnHash, "writeContractStatus:", writeContractStatus,
+        "writeContractIsConfirmed:", writeContractIsConfirmed);
+      readContract(
+        createConfig({
+          chains: [currentChain],
+          transports: {
+            [currentChain.id]: http(),
+          },
+        }),
+        {
+          abi: NFTPoIAbi,
+          account: connectedAddress,
+          functionName: "tokenOfOwnerByIndex",
+          address: metadata?.nftContractAddress as `0x${string}`,
+          //There's only one NFT token by Address, so always at index 0:
+          args: [connectedAddress, 0],
+        },
+      ).then(nftTokenId => {
+        console.log("nftTokenId:", nftTokenId);
+        window.ethereum.request({
+          "method": "wallet_watchAsset",
+          "params": {
+            "type": "ERC721",
+            "options": {
+              "address": metadata?.nftContractAddress as `0x${string}`,
+              "tokenId": nftTokenId.toString()
+            }
+          }
+        }).then(watchAssetResult => {
+          console.log("experimental watchAssetResult to add the NFT:", watchAssetResult);
+        });
+      });
+    } else if (activeTab === Tabs.Sell) {
+      console.log("New Sell transaction:", txnHash);
+    }
+  }, [txnHash, writeContractStatus, writeContractIsConfirmed]);
 
   return (
     <>
