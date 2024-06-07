@@ -17,7 +17,7 @@ contract RWF_Trust is ERC20, ERC20Permit, Ownable {
 
     uint256 private maxTokens;
     uint256 private initialPrice; //in 10**18 USD
-    uint256 private price; //in 10**18 USD
+    uint256 private price; //in 10**18 USD, should increase gradually up to nearly ROI
     uint256 private dueDate; //UTC Unix Timestamp
     uint256 private expectedROI; //in 10**18
     uint256 private earlyWithdrawPenalty; //in 10**18 USD
