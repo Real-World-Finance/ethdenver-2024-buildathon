@@ -20,7 +20,7 @@ export default function InvestmentDetailsBanner({ investment, className }: Props
           <h1 className="font-semibold lg:text-4xl md:text-4xl sm:text-3xl leading-6 text-gray-900 mb-0">
             {investment.name} ({investment.symbol})
           </h1>
-          <p className="text-2xl leading-6 text-gray-900 text-right">${formatEther(investment.price)}</p>
+          <p className="text-2xl leading-6 text-gray-900 text-right">${parseFloat(formatEther(investment.price)).toFixed(2)}</p>
         </div>
 
         {/* <p className="text-md leading-6 text-gray-900">{investment.description}</p> */}

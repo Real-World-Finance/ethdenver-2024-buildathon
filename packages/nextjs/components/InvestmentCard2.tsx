@@ -59,7 +59,7 @@ export default function InvestmentCard2({ contractAddr }: Props) {
           <h2 className="card-title">
             {metadata.name} ({metadata.symbol})
           </h2>
-          <h2 className="card-title">${formatEther(metadata.price)}</h2>
+          <h2 className="card-title">${parseFloat(formatEther(metadata.price)).toFixed(2)}</h2>
         </div>
         <figure>
           <Image src={metadata.imgUrl} alt={metadata.name} width={100} height={100} style={{ borderRadius: 10 }} />
