@@ -63,25 +63,31 @@ const InvestmentDetails: NextPage = () => {
     contracts[hardhat.id].NFTPoI;
   const getTabClass = (tab: Tabs) => (activeTab === tab ? activeTabClass : inactiveTabClass);
 
+  function getMetadata()
+  {
+    readContract(
+      createConfig({
+        chains: [currentChain],
+        transports: {
+          [currentChain.id]: http(),
+        },
+      }),
+      {
+        abi: TokenAbi,
+        account: connectedAddress,
+        functionName: "getMetadata",
+        address: contractAddr as `0x${string}`,
+        args: [],
+      },
+    ).then(result => {
+      setMetadata(JSON.parse(result));
+      console.log("DEBUG: setMetadata() called from getMetadata()");
+    });
+  }
+
   useEffect(() => {
     if (!metadata && connectedAddress && currentChain) {
-      readContract(
-        createConfig({
-          chains: [currentChain],
-          transports: {
-            [currentChain.id]: http(),
-          },
-        }),
-        {
-          abi: TokenAbi,
-          account: connectedAddress,
-          functionName: "getMetadata",
-          address: contractAddr as `0x${string}`,
-          args: [],
-        },
-      ).then(result => {
-        setMetadata(JSON.parse(result));
-      });
+      getMetadata();
     }
   }, [connectedAddress, contractAddr, metadata]);
 
@@ -187,8 +193,10 @@ const InvestmentDetails: NextPage = () => {
           console.log("experimental watchAssetResult to add the NFT:", watchAssetResult);
         });
       });
+      getMetadata(); //Refresh metadata (available tokens).
     } else if (activeTab === Tabs.Sell) {
       console.log("New Sell transaction:", txnHash);
+      getMetadata(); //Refresh metadata (available tokens).
     }
   }, [txnHash, writeContractStatus, writeContractIsConfirmed]);
 
