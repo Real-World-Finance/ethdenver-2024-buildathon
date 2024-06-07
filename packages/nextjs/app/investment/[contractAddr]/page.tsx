@@ -241,12 +241,12 @@ const InvestmentDetails: NextPage = () => {
                     <ul className="flex flex-wrap -mb-px">
                       <li className="me-2">
                         <span className={getTabClass(Tabs.Buy)} onClick={() => handleChangeTab(Tabs.Buy)}>
-                          Buy
+                          Buy {metadata.symbol} with {currentChain?.nativeCurrency.symbol}
                         </span>
                       </li>
                       <li className="me-2">
                         <span className={getTabClass(Tabs.Sell)} onClick={() => handleChangeTab(Tabs.Sell)}>
-                          Sell
+                          Sell {metadata.symbol} and receive {currentChain?.nativeCurrency.symbol}
                         </span>
                       </li>
                     </ul>
