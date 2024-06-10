@@ -60,7 +60,7 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
     args: [
       "Bufficorn Castle",
       "BCC",
-      "https://ipfs.io/ipfs/QmYBwZzYjCrjUFkEGiRMLRi3P4ztmMc9dp7XhmA1Zaie6j/?",
+      "https://ipfs.io/ipfs/QmR6ZKnwWwphta8M3nwmXXAUb1Don8FzuoKiny9TigWpaF/?",
       deployer
     ],
     log: true,

@@ -23,7 +23,7 @@ const deployedContracts = {
             },
             {
               internalType: "string",
-              name: "imageURL",
+              name: "baseURI",
               type: "string",
             },
             {
@@ -1700,7 +1700,7 @@ const deployedContracts = {
             },
             {
               internalType: "string",
-              name: "imageURL",
+              name: "baseURI",
               type: "string",
             },
             {
