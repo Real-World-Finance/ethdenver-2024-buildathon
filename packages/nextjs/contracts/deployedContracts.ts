@@ -1700,7 +1700,7 @@ const deployedContracts = {
             },
             {
               internalType: "string",
-              name: "baseURI",
+              name: "imageURL",
               type: "string",
             },
             {
