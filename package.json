@@ -33,10 +33,10 @@
     "vercel:yolo": "yarn workspace @se-2/nextjs vercel:yolo",
     "build": "yarn workspace @se-2/nextjs build"
   },
-  "packageManager": "yarn@4.2.2",
+  "packageManager": "yarn@4.3.1",
   "devDependencies": {
     "@types/uuid": "^9.0.8",
-    "husky": "^9.0.11",
-    "lint-staged": "^15.2.5"
+    "husky": "^9.1.1",
+    "lint-staged": "^15.2.7"
   }
 }
