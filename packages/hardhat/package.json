@@ -24,7 +24,7 @@
     "@nomicfoundation/hardhat-verify": "^2.0.8",
     "@typechain/ethers-v5": "^11.1.2",
     "@typechain/hardhat": "^9.1.0",
-    "@types/eslint": "^8.56.10",
+    "@types/eslint": "^8.56.11",
     "@types/mocha": "^9.1.1",
     "@types/prettier": "^2.7.3",
     "@types/qrcode": "^1.5.5",
@@ -43,7 +43,7 @@
     "solidity-coverage": "^0.8.12",
     "ts-node": "^10.9.2",
     "typechain": "^8.3.2",
-    "typescript": "^5.5.3"
+    "typescript": "^5.5.4"
   },
   "dependencies": {
     "@openzeppelin/contracts": "^5.0.2",

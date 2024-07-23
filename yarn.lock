@@ -2030,7 +2030,7 @@ __metadata:
     "@typechain/ethers-v5": "npm:^11.1.2"
     "@typechain/ethers-v6": "npm:^0.5.1"
     "@typechain/hardhat": "npm:^9.1.0"
-    "@types/eslint": "npm:^8.56.10"
+    "@types/eslint": "npm:^8.56.11"
     "@types/mocha": "npm:^9.1.1"
     "@types/prettier": "npm:^2.7.3"
     "@types/qrcode": "npm:^1.5.5"
@@ -2052,7 +2052,7 @@ __metadata:
     solidity-coverage: "npm:^0.8.12"
     ts-node: "npm:^10.9.2"
     typechain: "npm:^8.3.2"
-    typescript: "npm:^5.5.3"
+    typescript: "npm:^5.5.4"
   languageName: unknown
   linkType: soft
 
@@ -2063,7 +2063,7 @@ __metadata:
     "@ethersproject/providers": "npm:^5.7.2"
     "@heroicons/react": "npm:^2.1.5"
     "@rainbow-me/rainbowkit": "npm:^2.1.3"
-    "@tanstack/react-query": "npm:^5.51.9"
+    "@tanstack/react-query": "npm:^5.51.11"
     "@trivago/prettier-plugin-sort-imports": "npm:^4.3.0"
     "@types/node": "npm:^20.14.11"
     "@types/nprogress": "npm:^0.2.3"
@@ -2091,11 +2091,11 @@ __metadata:
     react-hot-toast: "npm:^2.4.1"
     tailwindcss: "npm:^3.4.6"
     type-fest: "npm:^4.22.1"
-    typescript: "npm:^5.5.3"
+    typescript: "npm:^5.5.4"
     use-debounce: "npm:^8.0.4"
     usehooks-ts: "npm:^2.16.0"
     vercel: "npm:^34.4.0"
-    viem: "npm:^2.17.5"
+    viem: "npm:^2.17.10"
     wagmi: "npm:^2.11.3"
     zustand: "npm:^4.5.4"
   languageName: unknown
@@ -2398,14 +2398,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/react-query@npm:^5.51.9":
-  version: 5.51.9
-  resolution: "@tanstack/react-query@npm:5.51.9"
+"@tanstack/react-query@npm:^5.51.11":
+  version: 5.51.11
+  resolution: "@tanstack/react-query@npm:5.51.11"
   dependencies:
     "@tanstack/query-core": "npm:5.51.9"
   peerDependencies:
     react: ^18.0.0
-  checksum: 10/5cedfc612b3355e421536fea42a375692646b46a0c08ce3c4988dbaf7342358cbe7fc886ff4bad11962dbff33a6582ae7f5b9444d270c048f8672346fd4b1c5d
+  checksum: 10/e840eb5f90fb6ec1693f98be651c5fa55a2885930015a2bf1f8699def596293eac79df8b3335e31b87af0a189d40597d35986379c930faf3496fc5061861d988
   languageName: node
   linkType: hard
 
@@ -2570,13 +2570,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/eslint@npm:^8.56.10":
-  version: 8.56.10
-  resolution: "@types/eslint@npm:8.56.10"
+"@types/eslint@npm:^8.56.11":
+  version: 8.56.11
+  resolution: "@types/eslint@npm:8.56.11"
   dependencies:
     "@types/estree": "npm:*"
     "@types/json-schema": "npm:*"
-  checksum: 10/0cdd914b944ebba51c35827d3ef95bc3e16eb82b4c2741f6437fa57cdb00a4407c77f89c220afe9e4c9566982ec8a0fb9b97c956ac3bd4623a3b6af32eed8424
+  checksum: 10/cfc4409973ed8d3ed183bc477bcfed39ea3fd264dc1da4a11b9c002d1e5fb96de8abed67f60a0e32a668cc2817b2b1c27a1885ec5de5fdc5471bcc99d5d1f75b
   languageName: node
   linkType: hard
 
@@ -12661,13 +12661,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^5.5.3":
-  version: 5.5.3
-  resolution: "typescript@npm:5.5.3"
+"typescript@npm:^5.5.4":
+  version: 5.5.4
+  resolution: "typescript@npm:5.5.4"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 10/11a867312419ed497929aafd2f1d28b2cd41810a5eb6c6e9e169559112e9ea073d681c121a29102e67cd4478d0a4ae37a306a5800f3717f59c4337e6a9bd5e8d
+  checksum: 10/1689ccafef894825481fc3d856b4834ba3cc185a9c2878f3c76a9a1ef81af04194849840f3c69e7961e2312771471bb3b460ca92561e1d87599b26c37d0ffb6f
   languageName: node
   linkType: hard
 
@@ -12681,13 +12681,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A^5.5.3#optional!builtin<compat/typescript>":
-  version: 5.5.3
-  resolution: "typescript@patch:typescript@npm%3A5.5.3#optional!builtin<compat/typescript>::version=5.5.3&hash=379a07"
+"typescript@patch:typescript@npm%3A^5.5.4#optional!builtin<compat/typescript>":
+  version: 5.5.4
+  resolution: "typescript@patch:typescript@npm%3A5.5.4#optional!builtin<compat/typescript>::version=5.5.4&hash=379a07"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 10/7cf7acb78a80f749b82842f2ffe01e90e7b3e709a6f4268588e0b7599c41dca1059be217f47778fe1a380bfaf60933021ef20d002c426d4d7745e1b36c11467b
+  checksum: 10/746fdd0865c5ce4f15e494c57ede03a9e12ede59cfdb40da3a281807853fe63b00ef1c912d7222143499aa82f18b8b472baa1830df8804746d09b55f6cf5b1cc
   languageName: node
   linkType: hard
 
@@ -13140,9 +13140,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"viem@npm:^2.1.1, viem@npm:^2.17.5":
-  version: 2.17.5
-  resolution: "viem@npm:2.17.5"
+"viem@npm:^2.1.1, viem@npm:^2.17.10":
+  version: 2.17.10
+  resolution: "viem@npm:2.17.10"
   dependencies:
     "@adraffy/ens-normalize": "npm:1.10.0"
     "@noble/curves": "npm:1.4.0"
@@ -13157,7 +13157,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 10/dd086f4077b0a418a3c326d5ab7df2119f33d2da5b95984b656929e61d766841bed82d677dc3d4c5e1650bc301062734baced71cd303abd40ece91d88b3d626e
+  checksum: 10/5018c46f61a2b94234930f224c81077f00c664ea28c7a6d4fb5509f76b8ae741a1153a6b0163c581906e6a1c7f010e6c49f093c7b317a55c7d1b8771f3d26d4e
   languageName: node
   linkType: hard
 
