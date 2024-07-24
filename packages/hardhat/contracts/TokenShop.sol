@@ -162,13 +162,17 @@ contract RWF_Trust is ERC20, ERC20Permit, Ownable {
     }
 
     function investmentExecution() public payable onlyOwner {
+        // Remember that address(this).balance gets updated with msg.value before calling methods.
         uint256 netPaymentETH = totalSupply() * price * 10**18 / ethExchangeValue();
         uint256 totalPaymentETH = (100 * 10**18 - profitPct) * netPaymentETH / (100 * 10**18);
+        uint256 ethRequiredFromSender = totalPaymentETH - address(this).balance > 0 ?
+            totalPaymentETH - address(this).balance : 0;
         require(block.timestamp > dueDate, 
             "You need to wait until the due date to excecute this function");
-        require(address(this).balance >= totalPaymentETH,
-            "Not enough funds to execute investment returns");
-        
+        require(address(this).balance >= totalPaymentETH, string.concat(
+            "Not enough funds to distribute, please send '",
+            Strings.toString(ethRequiredFromSender), "' WEI more + gas."));
+
         for (uint32 i = 0; i != beneficiaries.length; i++) {
             address payable beneficiary = payable(beneficiaries[i]);
             if (balanceOf(beneficiary) == 0) {
