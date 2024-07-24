@@ -134,16 +134,11 @@ contract RWF_Trust is ERC20, ERC20Permit, Ownable {
         }
     }
 
-    function _sell(address payable seller, uint256 tokenAmount) private {
-        require(tokenAmount > 0, "Invalid token amount");
-        require(balanceOf(seller) >= tokenAmount, "Insufficient tokens in your balance");
-        //FIXME: add check for selling all tokens or at least minOwnedTokens.
-
+    function ethFromSellingTokens(uint256 tokenAmount) private view returns (uint256) {
         uint256 penalty = 0;
         if (block.timestamp < dueDate) {
             penalty = tokenAmount * price * earlyWithdrawPenalty / (100 * 10**18);
         }
-        
         uint256 profit = 0;
         if (price > initialPrice) {
             profit = (price - initialPrice) * tokenAmount;
@@ -151,6 +146,14 @@ contract RWF_Trust is ERC20, ERC20Permit, Ownable {
         uint256 platformProfit = profit * profitPct / (100 * 10**18);
         uint256 amountUSD = tokenAmount * price - penalty - platformProfit;
         uint256 ethAmount =  amountUSD * 10**18 / ethExchangeValue();
+        return ethAmount;
+    }
+
+    function _sell(address payable seller, uint256 tokenAmount) private {
+        require(tokenAmount > 0, "Invalid token amount");
+        require(balanceOf(seller) >= tokenAmount, "Insufficient tokens in your balance");
+        //FIXME: add check for selling all tokens or at least minOwnedTokens.
+        uint256 ethAmount = ethFromSellingTokens(tokenAmount);
         require (address(this).balance >= ethAmount, "There's not enough funds in the contract to pay the beneficiary");
         require(ethAmount > 0, "There's nothing left for you my friend, better luck next time");
         _burn(seller, tokenAmount);
@@ -162,13 +165,12 @@ contract RWF_Trust is ERC20, ERC20Permit, Ownable {
     }
 
     function investmentExecution() public payable onlyOwner {
+        require(block.timestamp > dueDate,
+            "You need to wait until the due date to excecute this function");
+        uint256 totalPaymentETH = ethFromSellingTokens(totalSupply());
         // Remember that address(this).balance gets updated with msg.value before calling methods.
-        uint256 netPaymentETH = totalSupply() * price * 10**18 / ethExchangeValue();
-        uint256 totalPaymentETH = (100 * 10**18 - profitPct) * netPaymentETH / (100 * 10**18);
         uint256 ethRequiredFromSender = totalPaymentETH - address(this).balance > 0 ?
             totalPaymentETH - address(this).balance : 0;
-        require(block.timestamp > dueDate, 
-            "You need to wait until the due date to excecute this function");
         require(address(this).balance >= totalPaymentETH, string.concat(
             "Not enough funds to distribute, please send '",
             Strings.toString(ethRequiredFromSender), "' WEI more + gas."));
