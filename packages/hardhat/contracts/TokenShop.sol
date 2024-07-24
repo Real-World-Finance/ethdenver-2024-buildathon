@@ -151,10 +151,14 @@ contract RWF_Trust is ERC20, ERC20Permit, Ownable {
 
     function _sell(address payable seller, uint256 tokenAmount) private {
         require(tokenAmount > 0, "Invalid token amount");
-        require(balanceOf(seller) >= tokenAmount, "Insufficient tokens in your balance");
+        require(balanceOf(seller) >= tokenAmount, string.concat(
+            "Insufficient tokens in your balance, you currently have: ",
+            Strings.toString(balanceOf(seller))));
         //FIXME: add check for selling all tokens or at least minOwnedTokens.
         uint256 ethAmount = ethFromSellingTokens(tokenAmount);
-        require (address(this).balance >= ethAmount, "There's not enough funds in the contract to pay the beneficiary");
+        require (address(this).balance >= ethAmount, string.concat(
+            "There's not enough funds in the contract (", Strings.toString(address(this).balance),
+            " ETH) to pay (", Strings.toString(ethAmount), " ETH) to the beneficiary"));
         require(ethAmount > 0, "There's nothing left for you my friend, better luck next time");
         _burn(seller, tokenAmount);
         payable(seller).transfer(ethAmount);
